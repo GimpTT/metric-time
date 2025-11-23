@@ -9,16 +9,18 @@ metricTimer = setInterval(()=>{
     let seconds = now.getSeconds();
     let millisec = now.getMilliseconds()
     let totalmillisec = (hours*3600000)+(minutes*60000)+(seconds*1000)+millisec
-    let microChronos = totalmillisec*multRecip
-    let microCStr = microChronos.toString().padStart(7,'0')
+    let microChronos = totalmillisec/precisionInterval
+    let microCStr = microChronos.toString().padStart(8,'0')
+    let index = microCStr.indexOf(".");
     let timeUpdate = new CustomEvent('timeupdate', {detail:{
-        HC:microCStr[0],
-        DC:microCStr[1],
-        C:microCStr[2],
-        dC:microCStr[3],
-        cC:microCStr[4],
-        mC:microCStr[5],
-        miC:microCStr[6],
+        KC:microCStr[index-8] ?? '0',
+        HC:microCStr[index-7] ?? '0',
+        DC:microCStr[index-6] ?? '0',
+        C:microCStr[index-5] ?? '0',
+        dC:microCStr[index-4] ?? '0',
+        cC:microCStr[index-3] ?? '0',
+        mC:microCStr[index-2] ?? '0',
+        mic:microCStr[index-1] ?? '0',
         miCFull: microCStr
     }})
     document.dispatchEvent(timeUpdate)
@@ -71,17 +73,19 @@ function getCurrentMetricTime(){
     let seconds = now.getSeconds();
     let millisec = now.getMilliseconds()
     let totalmillisec = (hours*3600000)+(minutes*60000)+(seconds*1000)+millisec
-    let microChronos = totalmillisec*multRecip
-    let microCStr = microChronos.toString().padStart(7,'0')
-    let timeUpdate = {
-        HC:microCStr[0],
-        DC:microCStr[1],
-        C:microCStr[2],
-        dC:microCStr[3],
-        cC:microCStr[4],
-        mC:microCStr[5],
-        miC:microCStr[6],
+    let microChronos = totalmillisec/precisionInterval
+    let microCStr = microChronos.toString().padStart(8,'0')
+    let index = microCStr.indexOf(".");
+    let outPut = {
+        KC:microCStr[index-8] ?? '0',
+        HC:microCStr[index-7] ?? '0',
+        DC:microCStr[index-6] ?? '0',
+        C:microCStr[index-5] ?? '0',
+        dC:microCStr[index-4] ?? '0',
+        cC:microCStr[index-3] ?? '0',
+        mC:microCStr[index-2] ?? '0',
+        mic:microCStr[index-1] ?? '0',
         miCFull: microCStr
     }
-    return timeUpdate
+    return outPut;
 }
