@@ -9,9 +9,18 @@ metricTimer = setInterval(()=>{
     let seconds = now.getSeconds();
     let millisec = now.getMilliseconds()
     let totalmillisec = (hours*3600000)+(minutes*60000)+(seconds*1000)+millisec
-    let microChronos = totalmillisec/precisionInterval
-    let microCStr = microChronos.toString().padStart(8,'0')
+    let microChronos = totalmillisec*multRecip
+    let microCStr = microChronos.toString()
     let index = microCStr.indexOf(".");
+    if(index==-1){
+        console.log(microCStr)
+        if(microCStr.length<7){
+            for(let i=0; i<7-microCStr.length; i++){
+                microCStr += '0'
+            }
+        }
+        index=7
+    }
     let timeUpdate = new CustomEvent('timeupdate', {detail:{
         KC:microCStr[index-8] ?? '0',
         HC:microCStr[index-7] ?? '0',
@@ -24,6 +33,8 @@ metricTimer = setInterval(()=>{
         miCFull: microCStr
     }})
     document.dispatchEvent(timeUpdate)
+    
+    
 },1)
 }
 function stopMetricClock(){
@@ -35,6 +46,15 @@ function convertToMetric(hours = 0,minutes = 0,seconds = 0, millisec = 0){
     let microChronos = totalmillisec/precisionInterval
     let microCStr = microChronos.toString().padStart(8,'0')
     let index = microCStr.indexOf(".");
+    if(index==-1){
+        console.log(microCStr)
+        if(microCStr.length<7){
+            for(let i=0; i<7-microCStr.length; i++){
+                microCStr += '0'
+            }
+        }
+        index=7
+    }
     let outPut = {
         KC:microCStr[index-8] ?? '0',
         HC:microCStr[index-7] ?? '0',
@@ -76,6 +96,15 @@ function getCurrentMetricTime(){
     let microChronos = totalmillisec/precisionInterval
     let microCStr = microChronos.toString().padStart(8,'0')
     let index = microCStr.indexOf(".");
+    if(index==-1){
+        console.log(microCStr)
+        if(microCStr.length<7){
+            for(let i=0; i<7-microCStr.length; i++){
+                microCStr += '0'
+            }
+        }
+        index=7
+    }
     let outPut = {
         KC:microCStr[index-8] ?? '0',
         HC:microCStr[index-7] ?? '0',
